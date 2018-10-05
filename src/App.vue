@@ -2,9 +2,20 @@
   <div id="app">
     <div class="error" v-if="!onlneState">You are offline. Please check your connectivity</div>
     <div class="header">
-      <input type="text" name="search" placeholder="Search for Restaurants" v-model="searchInput" @input="findRestaurant(searchInput)" />
+      <input type="text"
+        name="search"
+        placeholder="Search for Restaurants"
+        v-model="searchInput"
+        @input="findRestaurant(searchInput)"
+        @focus="isSearching = true"
+        @blur="isSearching = false"
+       />
       <div v-if="searchResult.length" class="auto">
-        {{searchResult[0].name}}
+        <ul>
+          <li v-for="resturant in searchResult" :key="resturant.name">
+            {{resturant.name}}
+          </li>
+        </ul>
       </div>
       <div class="sort-by">
         Sort By:
@@ -12,11 +23,15 @@
         <div @click="sortAccgToDeliveryTime">Delivery Time</div>
       </div>
     </div>
+
     <div class="product-wrapper">
-      <div class="product" v-for="product in restrauntList" :key="product.name">
+      <ProductList :list="restrauntList" v-if="!isSearching" />
+
+      <ProductList :list="restrauntList" v-if="isSearching" />
+      <!-- <div class="product" v-for="product in restrauntList" :key="product.name" v-if="!isSearching">
         <div class="img">
           <img :src="product.image">
-      </div>
+        </div>
           <div class="info-wrapper">
             <div class="restro-info">
               <p>{{product.name}}</p>
@@ -31,10 +46,30 @@
             </div>
           </div>
         </div>
+
+        <div class="product" v-for="product in restrauntList" :key="product.name" v-if="isSearching">
+        <div class="img">
+          <img :src="product.image">
+        </div>
+          <div class="info-wrapper">
+            <div class="restro-info">
+              <p>{{product.name}}</p>
+              <div class="cuisines" v-if="product.cuisines">
+                {{product.cuisines.join(', ')}}
+              </div>
+            </div>
+            <hr>
+            <div class="restro-tim">
+              <p>{{product.rating}} </p>
+              <p>{{product.delivery_time}} MINS</p>
+            </div>
+          </div>
+        </div> -->
       </div>
     </div>
 </template>
 <script>
+import ProductList from './components/product-list.vue'
 export default {
   name: 'App',
   data () {
@@ -42,8 +77,12 @@ export default {
       restrauntList: [],
       searchInput: '',
       searchResult: [],
-      onlneState: true
+      onlneState: true,
+      isSearching: false
     }
+  },
+  components: {
+    ProductList
   },
   methods: {
     getRestaurantList () {
@@ -89,6 +128,7 @@ export default {
 }
 
 </script>
+
 <style>
 #app {
   position: absolute;
@@ -123,35 +163,8 @@ p {
   margin: 5px 0;
 }
 
-.product {
-  width: 30%;
-  display: flex;
-  background: white;
-  box-shadow: 0 1px 5px #d2cfcf;
-  margin: 10px 0;
-}
-
-.img {
-  width: 150px;
-}
-
 img {
   width: 100%;
-}
-
-.info-wrapper {
-  flex: 1;
-  text-align: left;
-  padding: 0 20px;
-}
-
-.restro-tim {
-  display: flex;
-  justify-content: space-around;
-}
-
-.cuisines {
-  display: flex;
 }
 
 .product-wrapper {
@@ -186,6 +199,10 @@ img {
     font-size: 12px;
     padding: 5px;
     font-weight: 600;
+}
+ul {
+  margin: 0;
+  list-style: none;
 }
 
 @media screen and (max-width: 48em) {
