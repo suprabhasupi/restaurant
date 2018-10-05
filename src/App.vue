@@ -32,13 +32,12 @@
           </div>
         </div>
       </div>
-      <!-- <router-view/> -->
     </div>
 </template>
 <script>
 export default {
   name: 'App',
-  data() {
+  data () {
     return {
       restrauntList: [],
       searchInput: '',
@@ -47,15 +46,16 @@ export default {
     }
   },
   methods: {
-    getRestaurantList() {
-      fetch('https://s3.ap-south-1.amazonaws.com/wc-search-widget/restaurants.json').then(function(res) {
+    getRestaurantList () {
+      fetch('https://s3.ap-south-1.amazonaws.com/wc-search-widget/restaurants.json').then(function (res) {
         return res.json()
       }).then(res => {
         this.restrauntList = res
         console.log('res---->>>', this.restrauntList)
       })
     },
-    findRestaurant(query) {
+    findRestaurant (query) {
+      query = query.charAt(0).toUpperCase() + query.slice(1)
       if (query.length === 0) {
         this.searchResult = []
       } else {
@@ -63,25 +63,25 @@ export default {
         this.searchResult = matchingProducts
       }
     },
-    matchRestaurant(input) {
+    matchRestaurant (input) {
       return this.restrauntList.filter(a => {
         if (a.name.match(input)) {
           return a
         }
       })
     },
-    sortAccgToRating() {
+    sortAccgToRating () {
       console.log('sortAccgToRating', this.restrauntList)
-      let b = this.restrauntList.sort((a, b) =>
+      this.restrauntList.sort((a, b) =>
         b.rating - a.rating)
     },
-    sortAccgToDeliveryTime() {
+    sortAccgToDeliveryTime () {
       console.log('sortAccgToRating', this.restrauntList)
-      let b = this.restrauntList.sort((a, b) =>
+      this.restrauntList.sort((a, b) =>
         a.delivery_time - b.delivery_time)
     }
   },
-  mounted() {
+  mounted () {
     this.getRestaurantList()
     this.onlneState = navigator.onLine
     console.log('onlneState------>>>>>', this.onlneState)
@@ -124,7 +124,7 @@ p {
 }
 
 .product {
-  width: 40%;
+  width: 30%;
   display: flex;
   background: white;
   box-shadow: 0 1px 5px #d2cfcf;
