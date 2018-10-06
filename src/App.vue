@@ -192,6 +192,15 @@ export default {
 </script>
 
 <style>
+
+html, body {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  margin: 0;
+}
 #app {
   background: #f6f6f6;
   position: absolute;
@@ -210,7 +219,7 @@ export default {
   display: flex;
   justify-content: space-between;
   background: linear-gradient(-23deg, rgb(255, 116, 23), rgb(240, 94, 35));
-  padding: 20px 165px;
+  padding: 20px 245px;
 }
 
 .input-wrapper {
@@ -219,12 +228,11 @@ export default {
 }
 
 input {
-  width: 30%;
+  width: 45%;
   padding: 8px;
   border-radius: 4px;
   border: none;
   display: flex;
-  margin-left: 20px;
   outline: none;
   line-height: 24px;
   font-size: 12px;
@@ -260,8 +268,8 @@ img {
 .auto {
   position: absolute;
   top: 40px;
-  width: 29.2%;
-  left: 20px;
+  width: 44%;
+  left: 0px;
   background: white;
   padding: 10px;
   text-align: left;
@@ -347,12 +355,20 @@ li {
   border-bottom: 2px solid transparent;
 }
 
+@media screen and (max-width: 1024px) {
+  .auto {
+    left: 100px;
+    width: 68%;
+  }
+}
+
 @media screen and (max-width: 48em) {
   .product, .product-wrapper {
     width: 100%;
   }
 
   input {
+    margin: auto;
     width: 85%;
   }
 
@@ -361,13 +377,19 @@ li {
     padding: 20px;
   }
 
+  .auto {
+    left: 38px;
+  }
+
   .sort-by {
     justify-content: center;
     padding-top: 12px;
   }
+}
 
-  .auto {
-    width: 89%;
+@media screen and (max-width: 350px) {
+  .img {
+    width: 125px;
   }
 }
 

@@ -38,7 +38,7 @@ export default {
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;
-  padding: 20px;
+  padding: 20px 30px;
 }
 .product {
   width: 30%;
@@ -92,12 +92,35 @@ hr {
   padding-right: 8px;
 }
 
+@media screen and (max-width: 1024px) {
+  .product {
+    width: 40%;
+  }
+  input {
+    width: 70%;
+  }
+  .auto {
+    width: 68%;
+  }
+}
+
 @media screen and (max-width: 48em) {
   .product {
-    width: 100%;
+    width: 80%;
+    margin: 10px auto;
   }
   .wrapper {
     padding: 0;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .product {
+    width: 95%;
+    margin: 10px auto;
+  }
+  .info-wrapper {
+    padding: 0 10px;
   }
 }
 </style>
