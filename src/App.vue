@@ -283,10 +283,10 @@ img {
   border-bottom: none;
 }
 .error {
-    color: white;
-    background: #fa4141;
-    font-size: 12px;
-    padding: 5px;
+    color: red;
+    background: white;
+    font-size: 14px;
+    padding: 10px;
     font-weight: 600;
 }
 ul {
