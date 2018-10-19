@@ -13,7 +13,7 @@
           :aria-activedescendant="activedescendant"
           @keydown.down="onArrowDown"
           @keydown.up="onArrowUp"
-          @keyup.enter="handleAutoCompleteSelection(searchResult[arrowCounter].name)"
+          @keyup.enter="searchResult.length > 0 ? handleAutoCompleteSelection(searchResult[arrowCounter].name) : handleAutoCompleteSelection(recentSearch[arrowCounter])"
          />
         <div v-if="isAutoCompleteVisible && searchResult.length > 0" class="auto">
           <ul>
@@ -33,7 +33,10 @@
         <div v-if="isRecentSearchVisible && recentSearch.length > 0" class="auto">
           <p class="recent-search">Recent Search:</p>
           <ul class="recent-search-list">
-            <li v-for="(resturant, i) in recentSearch" :key="i" >
+            <li v-for="(resturant, i) in recentSearch"
+              :key="i"
+              :class="{ 'is-active': isSelected(i) }"
+              >
               <div @click="handleAutoCompleteSelection(resturant)" class="resturant-name">{{resturant}}</div>
               <div @click="removeRecentSearch(resturant)" class="remove-recent-search">&#x2715;</div>
             </li>
@@ -48,8 +51,23 @@
     </div>
 
     <div class="product-wrapper">
+
+      <!-- <div class="hash-wrapper">
+        <div class="hash-tag-wrapper">
+          <div v-for="i in hashTagList">
+          <p :class="{ 'hashBorder' : hashTagVal}">{{i}}</p>
+          </div>
+        </div>
+        <input
+          name = "hashtag"
+          v-model="hashTag"
+          @input="hashTagCal(hashTag)"
+        />
+      </div> -->
+
+
       <ProductList :list="restrauntList" v-if="!isSearching" />
-      <ProductList :list="restrauntList" v-if="isSearching" />
+      <ProductList :list="searchResult" v-if="isSearching" />
       </div>
     </div>
 </template>
@@ -69,13 +87,30 @@ export default {
       isAutoCompleteVisible: false,
       isRecentSearchVisible: false,
       arrowCounter: 0,
-      activedescendant: ''
+      activedescendant: '',
+      // hashTagVal: false,
+      // hashTag: '',
+      // hashTagList: []
     }
   },
   components: {
     ProductList
   },
   methods: {
+    // hashTagCal(hashTag) {
+    //   console.log('event.which--->', hashTag.keyCode===8)
+    //   if (hashTag.slice(-1) === ',' || hashTag.slice(-1) === ' ') {
+    //   // if (hashTag.keyCode === 44 || hashTag.keyCode === 32) {
+    //     // console.log('hashTag---->>>>>', hashTag)
+    //     this.hashTagList.push(hashTag.slice(0, -1))
+    //     // this.hashTagList.push(hashTag.target.value.slice(0, -1))
+    //     this.hashTagVal = true;
+    //     // hashTag.target.value = ' '
+    //     // hashTag.target.key = ''
+    //     this.hashTag = ''
+    //     console.log('hashTagList---->>>>>>>>>', this.hashTagList)
+    //   }
+    // },
     getRestaurantList () {
       fetch('https://s3.ap-south-1.amazonaws.com/wc-search-widget/restaurants.json').then(function (res) {
         return res.json()
@@ -84,6 +119,7 @@ export default {
       })
     },
     handleAutoCompleteSelection (query) {
+      // this.hashTag = query;
       this.searchInput = query
       if (!this.recentSearch.includes(query)) {
         this.recentSearch.push(query)
@@ -95,21 +131,20 @@ export default {
     findRestaurant (query) {
       if (query.length === 0) {
         this.isSearching = false
+        this.arrowCounter = 0
         this.isRecentSearchVisible = true
-      } else {
-        this.isSearching = true
-        this.isRecentSearchVisible = false
-      }
-      query = query.charAt(0).toUpperCase() + query.slice(1)
-      if (query.length === 0) {
         this.searchResult = []
         this.isAutoCompleteVisible = false
       } else {
+        this.isSearching = true
+        this.isRecentSearchVisible = false
+        this.arrowCounter = 0;
         this.isAutoCompleteVisible = true
         let matchingProducts = this.matchRestaurant(query)
         let matchingCuisines = this.matchCuisines(query)
         // combining matching cuisines and name then de-duplicating
         this.searchResult = [...new Set([...matchingProducts, ...matchingCuisines])]
+
       }
     },
     matchCuisines (input) {
@@ -150,20 +185,21 @@ export default {
         a.delivery_time - b.delivery_time)
     },
     onArrowDown (evt) {
-      if (this.isAutoCompleteVisible) {
-        if (this.arrowCounter < this.searchResult.length - 1) {
+      // if (this.isAutoCompleteVisible) {
+        console.log('this.recentSearch------->>>', this.recentSearch)
+        if (this.arrowCounter < this.searchResult.length - 1 || this.arrowCounter < this.recentSearch.length - 1) {
           this.arrowCounter = this.arrowCounter + 1
           this.setActiveDescendent()
         }
-      }
+      // }
     },
     onArrowUp (evt) {
-      if (this.isAutoCompleteVisible) {
+      // if (this.isAutoCompleteVisible) {
         if (this.arrowCounter > 0) {
           this.arrowCounter = this.arrowCounter - 1
           this.setActiveDescendent()
         }
-      }
+      // }
     },
     setActiveDescendent () {
       this.activedescendant = this.getId(this.arrowCounter)
@@ -349,10 +385,27 @@ li {
   font-weight: 500;
   border-radius: 4px;
 }
+.hashBorder {
+  margin: 10px;
+  border: 1px solid #d7d7d7;
+  padding: 2px 10px;
+  color: #666666;
+  border-radius: 4px;
+}
 
 .not-active {
   font-weight: normal;
   border-bottom: 2px solid transparent;
+}
+
+.hash-tag-wrapper {
+  display: flex;
+  padding-left: 10px;
+  background: white;
+}
+
+.hash-wrapper {
+  display: flex;
 }
 
 @media screen and (max-width: 1024px) {
