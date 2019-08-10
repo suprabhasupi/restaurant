@@ -1,0 +1,37 @@
+[
+    {
+        "image":"https://res.cloudinary.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_508,h_320,c_fill/r14esvemeqw8cb6qe2p7",
+        "name":"Faasos",
+        "cuisines":["Fast Food", "North Indian"],
+        "rating":4.2,
+        "delivery_time":"30"
+    },
+    {
+        "image":"https://res.cloudinary.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_508,h_320,c_fill/d9fcdwvz2jitndznbtmm",
+        "name":"Grow fit",
+        "cuisines":["Healthy Food", "Indian"],
+        "rating":4.2,
+        "delivery_time":"35"
+    },
+    {
+        "image":"https://res.cloudinary.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_508,h_320,c_fill/samtyuu8gbztnwia2ae8",
+        "name":"Tata Cha",
+        "cuisines":["Fast Food", "beverages"],
+        "rating":4.5,
+        "delivery_time":"12"
+    },
+    {
+        "image":"https://res.cloudinary.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_508,h_320,c_fill/swyakvd9i2vq8aity30i",
+        "name":"Tadka Singh",
+        "cuisines":["Indian", "North Indian"],
+        "rating":4,
+        "delivery_time":"60"
+    },
+    {
+        "image":"https://res.cloudinary.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_508,h_320,c_fill/aurzdzygtqm9m8sjdddu",
+        "name":"The Bowl Company",
+        "cuisines":["Pan-Asia", "Indian"],
+        "rating":4.5,
+        "delivery_time":"40"
+    }
+]
